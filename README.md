@@ -1,7 +1,7 @@
-#PICK - docker
+# PICK - docker
 
-##Autores
+## Autores
 
-##Licença
+## Licença
 
-###Day01
+### Day01
