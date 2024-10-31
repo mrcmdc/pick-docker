@@ -37,5 +37,35 @@ EXPOSE 80
 ENTRYPOINT [ "nginx" ]
 CMD [ "-g","daemon off;" ]
 ```
+### Day02 - Dockerfile MultiStage
+Nesse não há MultiStage:
+
+```
+FROM golang:1.18
+WORKDIR /app
+COPY . ./
+RUN go mod init hello
+RUN go build -o /app/hello
+CMD [ "/app/hello" ]
+```
+
+Quando a imagem é produzida fica com 967MB de tamanho.
+
+Agora o Dockerfile está configurando a imagem do go como builder:
+
+```
+FROM golang:1.18 as builder
+WORKDIR /app
+COPY . ./
+RUN go mod init hello
+RUN go build -o /app/hello
+
+FROM alpine:3.15.9
+COPY --from=builder /app/hello /app/hello
+CMD [ "/app/hello" ]
+```
+Agora, o tamanho da imagem caiu para 7,35MB.
+
+
 
 
