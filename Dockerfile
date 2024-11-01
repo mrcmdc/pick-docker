@@ -1,9 +1,10 @@
-FROM golang:1.18 as builder
-WORKDIR /app
-COPY . ./
-RUN go mod init hello
-RUN go build -o /app/hello
-
-FROM alpine:3.15.9
-COPY --from=builder /app/hello /app/hello
-CMD [ "/app/hello" ]
+FROM ubuntu:20.04
+LABEL maintainer="mendonca.marcos@live.com"
+RUN apt update && apt install nginx curl -y && rm -rf /var/lib/apt/lists/*
+EXPOSE 80
+COPY index.html /var/www/html/
+WORKDIR /var/www/html
+ENV APP_VERSION=1.0.0
+ENTRYPOINT [ "nginx" ]
+CMD [ "-g","daemon off;" ]
+HEALTHCHECK --timeout=3s CMD curl -f http://localhost:80 || exit 1
