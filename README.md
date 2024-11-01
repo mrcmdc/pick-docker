@@ -51,7 +51,7 @@ CMD [ "/app/hello" ]
 
 Quando a imagem é produzida fica com 967MB de tamanho.
 
-Agora o Dockerfile está configurando a imagem do go como builder:
+Abaixo segue a configuração do Dockerfile FROM do go como builder:
 
 ```
 FROM golang:1.18 as builder
@@ -64,7 +64,12 @@ FROM alpine:3.15.9
 COPY --from=builder /app/hello /app/hello
 CMD [ "/app/hello" ]
 ```
-Agora, o tamanho da imagem caiu para 7,35MB.
+Agora, o tamanho da imagem caiu para 7,35MB:
+```
+REPOSITORY                    TAG       IMAGE ID       CREATED        SIZE
+imgday02                      2.0       9f0b4e06635f   23 hours ago   7.35MB
+imgday02                      1.0       4d29050f2d3a   23 hours ago   967MB
+```
 
 
 
